@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 
 import androidx.compose.foundation.layout.size
 
@@ -41,7 +42,8 @@ fun WelcomeScreen(navController: NavController) {
         Column(
 
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Bottom
+            verticalArrangement = Arrangement.Bottom,
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp)
 
         ) {
             Image(
@@ -60,7 +62,7 @@ fun WelcomeScreen(navController: NavController) {
             AuthButtons(
                 label = "Login",
                 onClick = { navController.navigate(AuthRoutes.LoginScreen.route) },
-                modifier = Modifier.fillMaxWidth()
+
             )
             Spacer(modifier = Modifier.height(16.dp))
             AuthButtons(
@@ -68,7 +70,7 @@ fun WelcomeScreen(navController: NavController) {
                 onClick = { navController.navigate(AuthRoutes.RegisterScreen.route) },
                 containerColor = Color.White,
                 textColor = Color.Black,
-                modifier = Modifier.fillMaxWidth()
+
             )
             Spacer(modifier = Modifier.height(100.dp))
         }
