@@ -39,6 +39,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.alvaro.mediumpractices.R
 import com.alvaro.mediumpractices.auth.ui.LoginSocialButtons
 import com.alvaro.mediumpractices.ui.theme.Urbanist
@@ -117,17 +118,18 @@ fun TextFieldLogin(
             }
         },
 
-        visualTransformation = if (showPassword) PasswordVisualTransformation() else VisualTransformation.None
+        visualTransformation = if (showPassword) PasswordVisualTransformation() else VisualTransformation.None,
+        shape = RoundedCornerShape(8.dp)
     )
 }
 
 
 @Composable
-fun authTopBar() {
+fun authTopBar(navController: NavController) {
 
     Box(Modifier.fillMaxWidth()) {
         IconButton(
-            onClick = { /*TODO*/ },
+            onClick = { navController.popBackStack() },
             modifier = Modifier
                 .padding(horizontal = 12.dp, vertical = 32.dp)
                 .border(

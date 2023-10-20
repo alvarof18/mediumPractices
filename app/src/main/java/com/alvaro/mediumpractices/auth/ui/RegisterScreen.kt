@@ -1,7 +1,5 @@
 package com.alvaro.mediumpractices.auth.ui
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -9,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -25,17 +22,20 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.alvaro.mediumpractices.auth.ui.common.AuthButtons
 import com.alvaro.mediumpractices.auth.ui.common.FooterAuth
 import com.alvaro.mediumpractices.auth.ui.common.HeaderAuth
 import com.alvaro.mediumpractices.auth.ui.common.SocialAuth
 import com.alvaro.mediumpractices.auth.ui.common.TextFieldLogin
 import com.alvaro.mediumpractices.auth.ui.common.authTopBar
+import com.alvaro.mediumpractices.config.AuthRoutes
 import com.alvaro.mediumpractices.ui.theme.Urbanist
 
 @Composable
-fun RegisterScreen() {
-    Scaffold(topBar = { authTopBar() }) {
+fun RegisterScreen(navController: NavController) {
+    Scaffold(topBar = { authTopBar(navController) }) {
         Column(
             Modifier
                 .padding(it)
@@ -43,7 +43,7 @@ fun RegisterScreen() {
         ) {
             HeaderAuth(title = "Hello! Register to get started")
             Spacer(modifier = Modifier.height(32.dp))
-            RegisterForm()
+            RegisterForm(navController)
             Spacer(modifier = Modifier.weight(1f))
             FooterAuth(label = "Already have an account?", labelClickable ="Login now", onClick = {} )
         }
@@ -52,7 +52,7 @@ fun RegisterScreen() {
 }
 
 @Composable
-fun RegisterForm(){
+fun RegisterForm(navController: NavController){
     var username by remember {
         mutableStateOf("")
     }
@@ -75,7 +75,7 @@ fun RegisterForm(){
         Spacer(modifier = Modifier.height(8.dp))
         TextFieldLogin(value = confirmarpassword , onValueChange = {confirmarpassword = it} , placeholder = "Confirm Password" )
         Spacer(modifier = Modifier.height(16.dp))
-        AuthButtons(onClick = { /*TODO*/ }, label = "Register")
+        AuthButtons(onClick = { navController.navigate(AuthRoutes.SuccessfulPasswordChangedScreen.route) }, label = "Register")
         Spacer(modifier = Modifier.height(16.dp))
         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
             Divider(
@@ -106,5 +106,6 @@ fun RegisterForm(){
 @Preview
 @Composable
 fun PreviewRegisterScreen() {
-    RegisterScreen()
+    val navController = rememberNavController()
+    RegisterScreen(navController)
 }

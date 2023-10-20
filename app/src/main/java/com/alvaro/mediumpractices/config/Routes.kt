@@ -11,6 +11,9 @@ sealed class AuthRoutes(val route:String){
     object LoginScreen:Routes("login")
     object RegisterScreen:Routes("register")
     object ForgotScreen:Routes("forgot")
+    object OtpValidationScreen:Routes("otp")
+    object SuccessfulPasswordChangedScreen:Routes("password-change-successful")
+    object PasswordChangedScreen:Routes("password-changed")
 
 
 }

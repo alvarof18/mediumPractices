@@ -18,6 +18,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.alvaro.mediumpractices.auth.ui.common.AuthButtons
 import com.alvaro.mediumpractices.auth.ui.common.HeaderAuth
 import com.alvaro.mediumpractices.auth.ui.common.TextFieldLogin
@@ -25,8 +27,8 @@ import com.alvaro.mediumpractices.auth.ui.common.authTopBar
 import com.alvaro.mediumpractices.ui.theme.Urbanist
 
 @Composable
-fun CreateNewPasswordScreen(){
-    Scaffold(topBar = { authTopBar()}) {
+fun CreateNewPasswordScreen(navController: NavController) {
+    Scaffold(topBar = { authTopBar(navController)}) {
         Column(Modifier.padding(it)) {
             HeaderCreateNewPassword()
             Spacer(modifier = Modifier.height(16.dp))
@@ -74,5 +76,6 @@ fun FormCreateNewPassword(){
 @Preview
 @Composable
 fun PreviewCreateNewPasswordScreen(){
-    CreateNewPasswordScreen()
+    val navController = rememberNavController()
+    CreateNewPasswordScreen(navController)
     }

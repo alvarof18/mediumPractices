@@ -20,14 +20,19 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.alvaro.mediumpractices.R
 import com.alvaro.mediumpractices.auth.ui.common.AuthButtons
+import com.alvaro.mediumpractices.config.AuthRoutes
 import com.alvaro.mediumpractices.ui.theme.Urbanist
 
 @Composable
-fun PasswordChangedScreen() {
+fun PasswordChangedScreen(navController: NavController) {
     Column(
-        Modifier.fillMaxSize().padding(horizontal = 12.dp),
+        Modifier
+            .fillMaxSize()
+            .padding(horizontal = 12.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -55,13 +60,14 @@ fun PasswordChangedScreen() {
 
         )
         Spacer(modifier = Modifier.height(32.dp))
-        AuthButtons(label = "Back to Login", onClick = { /*TODO*/ })
+        AuthButtons(label = "Back to Login", onClick = { navController.navigate(AuthRoutes.LoginScreen.route) })
     }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun PreviewPasswordChangedScreen() {
-    PasswordChangedScreen()
+    val navController = rememberNavController()
+    PasswordChangedScreen(navController)
 
 }
