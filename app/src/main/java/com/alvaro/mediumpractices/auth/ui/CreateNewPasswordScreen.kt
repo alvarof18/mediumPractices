@@ -19,33 +19,30 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.alvaro.mediumpractices.auth.ui.common.AuthButtons
-import com.alvaro.mediumpractices.auth.ui.common.FooterAuth
 import com.alvaro.mediumpractices.auth.ui.common.HeaderAuth
 import com.alvaro.mediumpractices.auth.ui.common.TextFieldLogin
 import com.alvaro.mediumpractices.auth.ui.common.authTopBar
 import com.alvaro.mediumpractices.ui.theme.Urbanist
 
 @Composable
-fun ForgotPasswordScreen() {
-
-    Scaffold(topBar = { authTopBar() }) {
+fun CreateNewPasswordScreen(){
+    Scaffold(topBar = { authTopBar()}) {
         Column(Modifier.padding(it)) {
-            HeaderForgotPassword()
+            HeaderCreateNewPassword()
             Spacer(modifier = Modifier.height(16.dp))
-            ForgotForm()
-            Spacer(modifier = Modifier.weight(1f))
-            FooterAuth(label = "Remember Password", labelClickable ="Login In", onClick = {} )
+            FormCreateNewPassword()
         }
     }
+
 }
 
 @Composable
-fun HeaderForgotPassword() {
+fun HeaderCreateNewPassword(){
     Column(Modifier.fillMaxWidth()) {
-        HeaderAuth(title = "Forgot Password?")
-        Spacer(modifier = Modifier.height(4.dp))
+        HeaderAuth(title = "Create new password")
+        Spacer(Modifier.height(4.dp))
         Text(
-            text = "Don't worry! It occurs. Please enter the email address linked with your account.",
+            text = "Your new password must be unique from those previously used.",
             modifier = Modifier.padding(horizontal = 12.dp),
             fontFamily = Urbanist,
             fontSize = 16.sp,
@@ -56,22 +53,26 @@ fun HeaderForgotPassword() {
 }
 
 @Composable
-fun ForgotForm(){
-    var email by remember {
+fun FormCreateNewPassword(){
+    var newPassword by remember {
+        mutableStateOf("")
+    }
+
+    var confirmNewPassword by remember {
         mutableStateOf("")
     }
 
     Column(Modifier.padding(horizontal = 12.dp)) {
-        TextFieldLogin(value = email, onValueChange = {email = it} , placeholder ="Email")
-        Spacer(modifier = Modifier.height(24.dp))
-        AuthButtons(label = "Send Code", onClick = { /*TODO*/ })
+        TextFieldLogin(value = newPassword, onValueChange ={newPassword = it} , placeholder ="New Password" )
+        Spacer(modifier = Modifier.height(8.dp))
+        TextFieldLogin(value = confirmNewPassword, onValueChange ={confirmNewPassword = it} , placeholder ="Confirm Password" )
+        Spacer(modifier = Modifier.height(16.dp))
+        AuthButtons(label = "Reset Password", onClick = { /*TODO*/ })
     }
-
 }
 
 @Preview
 @Composable
-fun PreviewForgotPasswordScreen() {
-
-    ForgotPasswordScreen()
-}
+fun PreviewCreateNewPasswordScreen(){
+    CreateNewPasswordScreen()
+    }

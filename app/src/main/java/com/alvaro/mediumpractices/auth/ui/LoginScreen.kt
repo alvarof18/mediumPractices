@@ -43,6 +43,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.alvaro.mediumpractices.R
 import com.alvaro.mediumpractices.auth.ui.common.AuthButtons
+import com.alvaro.mediumpractices.auth.ui.common.FooterAuth
+import com.alvaro.mediumpractices.auth.ui.common.HeaderAuth
+import com.alvaro.mediumpractices.auth.ui.common.SocialAuth
 import com.alvaro.mediumpractices.auth.ui.common.TextFieldLogin
 import com.alvaro.mediumpractices.auth.ui.common.authTopBar
 import com.alvaro.mediumpractices.ui.theme.Urbanist
@@ -55,26 +58,18 @@ fun LoginScreen() {
                 .padding(it)
                 .fillMaxSize()
         ) {
-            HeaderLogin()
+            HeaderAuth(title = "Welcome Back! Glad to see you, Again!")
             Spacer(modifier = Modifier.height(32.dp))
             LoginForm()
             Spacer(modifier = Modifier.weight(1f))
-            LoginFooter()
+            FooterAuth(
+                label = "Don't have an account?",
+                labelClickable = "Register Now",
+                onClick = {})
         }
     }
 }
 
-@Composable
-fun HeaderLogin() {
-    Text(
-        text = "Welcome Back! Glad to see you, Again!",
-        fontFamily = Urbanist,
-        fontSize = 30.sp,
-        fontWeight = FontWeight.Bold,
-        modifier = Modifier.padding(start = 12.dp, end = 84.dp)
-    )
-
-}
 
 @Composable
 fun LoginForm(modifier: Modifier = Modifier) {
@@ -135,41 +130,10 @@ fun LoginForm(modifier: Modifier = Modifier) {
             )
         }
         Spacer(modifier = Modifier.height(16.dp))
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-            LoginSocialButtons(icon = R.drawable.facebook_ic)
-            LoginSocialButtons(icon = R.drawable.google_ic)
-            LoginSocialButtons(icon = R.drawable.apple_ic)
-
-        }
+        SocialAuth()
     }
 }
 
-@Composable
-fun LoginFooter() {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 32.dp),
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(
-            text = "Don't have an account?",
-            fontFamily = Urbanist,
-            fontSize = 15.sp,
-            fontWeight = FontWeight.Medium
-        )
-        TextButton(onClick = { /*TODO*/ }, contentPadding = PaddingValues(start = 2.dp)) {
-            Text(
-                text = "Register Now",
-                fontFamily = Urbanist,
-                fontSize = 15.sp,
-                color = Color(0xff35C2C1),
-                fontWeight = FontWeight.Bold,
-            )
-        }
-    }
-}
 
 @Composable
 fun LoginSocialButtons(@DrawableRes icon: Int) {
