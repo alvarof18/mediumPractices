@@ -1,4 +1,4 @@
-package com.alvaro.mediumpractices.auth.ui
+package com.alvaro.mediumpractices.auth.login.ui
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
@@ -20,10 +20,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,6 +30,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.alvaro.mediumpractices.auth.ui.common.AuthButtons
@@ -65,27 +64,23 @@ fun LoginScreen(navController: NavController) {
 
 
 @Composable
-fun LoginForm(modifier: Modifier = Modifier) {
+fun LoginForm(loginViewModel: LoginViewModel = viewModel()) {
 
-    var email by remember {
-        mutableStateOf("")
-    }
-
-    var password by remember {
-        mutableStateOf("")
-    }
+    val email by loginViewModel.email.collectAsState(initial = "")
+    val password by loginViewModel.password.collectAsState(initial = "")
+    val isEnableLogin by loginViewModel.enableLogin.collectAsState(initial = false)
 
     Column(modifier = Modifier.padding(horizontal = 12.dp)) {
         TextFieldLogin(
             value = email,
             placeholder = "Enter your email",
-            onValueChange = { email = it })
+            onValueChange = { loginViewModel.onChangedLogin(email = it, password = password) }, errorMessage = "")
         Spacer(modifier = Modifier.height(8.dp))
         TextFieldLogin(
             value = password,
             placeholder = "Enter your password",
-            onValueChange = { password = it },
-            isPasswordField = true
+            onValueChange = { loginViewModel.onChangedLogin(email = email, password = it) },
+            isPasswordField = true, errorMessage = ""
         )
         Spacer(modifier = Modifier.height(12.dp))
         Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.TopEnd) {
@@ -99,7 +94,7 @@ fun LoginForm(modifier: Modifier = Modifier) {
             )
         }
         Spacer(modifier = Modifier.height(24.dp))
-        AuthButtons(onClick = {}, label = "Login")
+        AuthButtons(onClick = {}, label = "Login", enabled = isEnableLogin)
         Spacer(modifier = Modifier.height(32.dp))
         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
             Divider(

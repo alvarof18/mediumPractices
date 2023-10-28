@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "430481089358",
+    "project_id": "jetpackcomposeandroid",
+    "storage_bucket": "jetpackcomposeandroid.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:430481089358:android:52361e415fd0c8365af41f",
+        "android_client_info": {
+          "package_name": "com.alvaro.mediumpractices"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmb5ePZ7L-hPRT7BbVxPiF7L35tYvvCPo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

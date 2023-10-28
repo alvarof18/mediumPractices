@@ -63,6 +63,7 @@ fun MediumpracticesTheme(
         // set transparent color so that our image is visible
         // behind the status bar
         systemUiController.setStatusBarColor(color = Color.Transparent)
+
     }
 
 

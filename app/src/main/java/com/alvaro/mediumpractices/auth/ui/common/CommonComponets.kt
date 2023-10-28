@@ -11,14 +11,17 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChevronLeft
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -29,11 +32,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
@@ -41,10 +46,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.alvaro.mediumpractices.R
-import com.alvaro.mediumpractices.auth.ui.LoginSocialButtons
+import com.alvaro.mediumpractices.auth.login.ui.LoginSocialButtons
+
 import com.alvaro.mediumpractices.ui.theme.Urbanist
 
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun AuthButtons(
     label: String,
@@ -52,18 +59,24 @@ fun AuthButtons(
     containerColor: Color = Color.Black,
     textColor: Color = Color.White,
     shape: Shape = RoundedCornerShape(8.dp),
-    borderColor: Color = Color.Black
+    borderColor: Color = Color.Black,
+    enabled: Boolean = true
 ) {
+
+    val controller = LocalSoftwareKeyboardController.current
     Button(
-        onClick = { onClick() },
+        onClick = {
+            controller?.hide()
+            onClick()
+        },
         modifier = Modifier
             .height(56.dp)
             .fillMaxWidth()
         //   .padding(horizontal = 18.dp),
         , shape = shape,
         colors = ButtonDefaults.buttonColors(
-            containerColor = containerColor
-        ), border = BorderStroke(1.dp, borderColor)
+            containerColor = containerColor,
+        ), border = if (enabled) BorderStroke(1.dp, borderColor) else null, enabled = enabled
 
     ) {
         Text(
@@ -81,7 +94,10 @@ fun TextFieldLogin(
     value: String,
     onValueChange: (String) -> Unit,
     placeholder: String,
-    isPasswordField: Boolean = false
+    isPasswordField: Boolean = false,
+    keyboardType: KeyboardType = KeyboardType.Text,
+    isError: Boolean = false,
+    errorMessage: String = ""
 ) {
     var showPassword by remember {
         mutableStateOf(false)
@@ -96,7 +112,8 @@ fun TextFieldLogin(
             focusedBorderColor = Color(0xffE8ECF4),
             unfocusedBorderColor = Color(0xffE8ECF4),
             unfocusedContainerColor = Color(0xffF7F8F9),
-            focusedContainerColor = Color(0xffF7F8F9)
+            focusedContainerColor = Color(0xffF7F8F9),
+            errorContainerColor = Color(0xffF7F8F9)
         ),
         placeholder = {
             Text(
@@ -119,7 +136,21 @@ fun TextFieldLogin(
         },
 
         visualTransformation = if (showPassword) PasswordVisualTransformation() else VisualTransformation.None,
-        shape = RoundedCornerShape(8.dp)
+        shape = RoundedCornerShape(8.dp),
+        keyboardOptions = KeyboardOptions(
+            keyboardType = keyboardType
+        ),
+        isError = isError,
+        supportingText = {
+
+            if (isError) {
+                Text(
+                    text = errorMessage,
+                    modifier = Modifier.fillMaxWidth(),
+                    color = MaterialTheme.colorScheme.error
+                )
+            }
+        }, singleLine = true
     )
 }
 
@@ -171,7 +202,7 @@ fun SocialAuth() {
 }
 
 @Composable
-fun FooterAuth(label:String, labelClickable:String, onClick: () -> Unit) {
+fun FooterAuth(label: String, labelClickable: String, onClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -180,7 +211,7 @@ fun FooterAuth(label:String, labelClickable:String, onClick: () -> Unit) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = label ,
+            text = label,
             fontFamily = Urbanist,
             fontSize = 15.sp,
             fontWeight = FontWeight.Medium
@@ -197,10 +228,39 @@ fun FooterAuth(label:String, labelClickable:String, onClick: () -> Unit) {
     }
 }
 
+@Composable
+fun LoginDialog(
+    title: String,
+    onDismissRequest: () -> Unit,
+    onConfirmation: () -> Unit,
+    dialogText: String,
+) {
+    AlertDialog(
+        title = {
+            Text(text = title, fontFamily = Urbanist)
+        },
+        text = {
+            Text(text = dialogText)
+        },
+        onDismissRequest = {
+            onDismissRequest()
+        },
+        confirmButton = {
+            TextButton(
+                onClick = {
+                    onConfirmation()
+                }
+            ) {
+                Text("Confirm")
+            }
+        },
+    )
+}
+
 @Preview(showBackground = true)
 @Composable
 fun PreviewTextFieldLogin() {
-    TextFieldLogin("Hola", placeholder = "Email", onValueChange = {})
+    TextFieldLogin("Hola", placeholder = "Email", onValueChange = {}, errorMessage = "")
 
 }
 

@@ -8,6 +8,7 @@ sealed class Routes(val route:String){
 
 sealed class AuthRoutes(val route:String){
     object WelcomeScreen:Routes("welcome")
+    object HomeScreen:Routes("home")
     object LoginScreen:Routes("login")
     object RegisterScreen:Routes("register")
     object ForgotScreen:Routes("forgot")
