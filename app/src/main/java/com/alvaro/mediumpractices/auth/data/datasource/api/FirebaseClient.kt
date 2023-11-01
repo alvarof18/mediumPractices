@@ -1,4 +1,4 @@
-package com.alvaro.mediumpractices.auth.data.network.firebase
+package com.alvaro.mediumpractices.auth.data.datasource.api
 
 
 import com.google.firebase.auth.FirebaseAuth

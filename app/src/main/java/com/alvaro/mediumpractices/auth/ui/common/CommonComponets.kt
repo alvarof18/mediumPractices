@@ -97,7 +97,8 @@ fun TextFieldLogin(
     isPasswordField: Boolean = false,
     keyboardType: KeyboardType = KeyboardType.Text,
     isError: Boolean = false,
-    errorMessage: String = ""
+    errorMessage: String = "",
+    enabled: Boolean = true
 ) {
     var showPassword by remember {
         mutableStateOf(false)
@@ -150,7 +151,7 @@ fun TextFieldLogin(
                     color = MaterialTheme.colorScheme.error
                 )
             }
-        }, singleLine = true
+        }, singleLine = true, enabled = enabled
     )
 }
 
@@ -260,7 +261,13 @@ fun LoginDialog(
 @Preview(showBackground = true)
 @Composable
 fun PreviewTextFieldLogin() {
-    TextFieldLogin("Hola", placeholder = "Email", onValueChange = {}, errorMessage = "")
+    TextFieldLogin(
+        "Hola",
+        placeholder = "Email",
+        onValueChange = {},
+        errorMessage = "",
+        enabled = true
+    )
 
 }
 
