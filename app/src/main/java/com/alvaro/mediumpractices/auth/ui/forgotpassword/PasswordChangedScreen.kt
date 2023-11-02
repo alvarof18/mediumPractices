@@ -1,4 +1,4 @@
-package com.alvaro.mediumpractices.auth.ui
+package com.alvaro.mediumpractices.auth.ui.forgotpassword
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement

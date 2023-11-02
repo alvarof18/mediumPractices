@@ -1,6 +1,8 @@
 package com.alvaro.mediumpractices.auth.ui.common
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -10,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -37,6 +40,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -46,7 +50,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.alvaro.mediumpractices.R
-import com.alvaro.mediumpractices.auth.login.ui.LoginSocialButtons
+
 
 import com.alvaro.mediumpractices.ui.theme.Urbanist
 
@@ -101,7 +105,7 @@ fun TextFieldLogin(
     enabled: Boolean = true
 ) {
     var showPassword by remember {
-        mutableStateOf(false)
+        mutableStateOf(true)
     }
 
     OutlinedTextField(
@@ -136,7 +140,7 @@ fun TextFieldLogin(
             }
         },
 
-        visualTransformation = if (showPassword) PasswordVisualTransformation() else VisualTransformation.None,
+        visualTransformation = if (showPassword && isPasswordField) PasswordVisualTransformation() else VisualTransformation.None,
         shape = RoundedCornerShape(8.dp),
         keyboardOptions = KeyboardOptions(
             keyboardType = keyboardType
@@ -257,6 +261,24 @@ fun LoginDialog(
         },
     )
 }
+
+@Composable
+fun LoginSocialButtons(@DrawableRes icon: Int) {
+    IconButton(
+        onClick = { /*TODO*/ },
+        modifier = Modifier
+            .height(56.dp)
+            .width(100.dp)
+            .border(1.dp, color = Color(0xffE8ECF4), shape = RoundedCornerShape(8.dp))
+    ) {
+        Image(
+            painter = painterResource(id = icon),
+            contentDescription = null,
+            modifier = Modifier.size(26.dp),
+        )
+    }
+}
+
 
 @Preview(showBackground = true)
 @Composable

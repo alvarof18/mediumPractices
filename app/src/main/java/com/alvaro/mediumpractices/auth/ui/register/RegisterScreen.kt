@@ -1,5 +1,6 @@
 package com.alvaro.mediumpractices.auth.ui.register
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 
@@ -182,7 +183,7 @@ fun RegisterForm(
             }
             SocialAuth()
         }
-
+        Log.i("LoadingMode", uiStateRegister.isLoading.toString())
         if (uiStateRegister.isLoading) {
            CircularProgressIndicator()
         }

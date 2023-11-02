@@ -6,11 +6,14 @@ import com.alvaro.mediumpractices.auth.domain.repository.AuthRepository
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-
-
 class AuthenticationService @Inject constructor(private val firebaseClient: FirebaseClient) :
     AuthRepository {
-    override suspend fun login(email: String, password: String) {
+    override suspend fun login(email: String, password: String):AuthResponse? {
+        runCatching {
+            firebaseClient.auth.signInWithEmailAndPassword(email, password).await()
+        }.onSuccess { return AuthResponse.Successful }
+            .onFailure { return AuthResponse.Error(it.message!!) }
+        return null
     }
 
     override suspend fun createAccount(newUser:UserSignIn): AuthResponse?{

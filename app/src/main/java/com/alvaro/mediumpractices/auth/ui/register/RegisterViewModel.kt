@@ -42,7 +42,10 @@ class RegisterViewModel @Inject constructor(
     fun onEvent(event: RegistrationFormEvent) {
         when (event) {
             is RegistrationFormEvent.EmailChanged -> _uiStateRegister.update { it.copy(email = event.email) }
-            is RegistrationFormEvent.PasswordChanged -> _uiStateRegister.update { it.copy(password = event.password) }
+            is RegistrationFormEvent.PasswordChanged ->
+                _uiStateRegister.update { it.copy(password = event.password) }
+
+
             is RegistrationFormEvent.RepeatPasswordChanged -> _uiStateRegister.update {
                 it.copy(
                     repeatPassword = event.repeatedPassword
@@ -96,6 +99,7 @@ class RegisterViewModel @Inject constructor(
                     showDialogError = true
                     _uiStateRegister.update { it.copy(emailError = result.error) }
                 }
+
                 RegisterResponseState.Successful -> onClick()
             }
             _uiStateRegister.update { it.copy(isLoading = false) }
