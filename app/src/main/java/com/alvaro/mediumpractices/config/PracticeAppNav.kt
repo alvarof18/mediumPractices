@@ -8,7 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.alvaro.mediumpractices.auth.ui.forgotpassword.CreateNewPasswordScreen
-import com.alvaro.mediumpractices.auth.ui.forgotpassword.ForgotPasswordScreen
+import com.alvaro.mediumpractices.auth.ui.forgotpassword.screens.ForgotPasswordScreen
 import com.alvaro.mediumpractices.auth.ui.HomeScreen
 import com.alvaro.mediumpractices.auth.ui.login.LoginScreen
 import com.alvaro.mediumpractices.auth.ui.forgotpassword.OtpVerificationScreen

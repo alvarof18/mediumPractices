@@ -1,4 +1,4 @@
-package com.alvaro.mediumpractices.auth.ui.forgotpassword
+package com.alvaro.mediumpractices.auth.ui.forgotpassword.screens
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -18,6 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.alvaro.mediumpractices.auth.ui.common.AuthButtons
@@ -25,6 +27,8 @@ import com.alvaro.mediumpractices.auth.ui.common.FooterAuth
 import com.alvaro.mediumpractices.auth.ui.common.HeaderAuth
 import com.alvaro.mediumpractices.auth.ui.common.TextFieldLogin
 import com.alvaro.mediumpractices.auth.ui.common.authTopBar
+import com.alvaro.mediumpractices.auth.ui.forgotpassword.ForgotPasswordEvent
+import com.alvaro.mediumpractices.auth.ui.forgotpassword.ForgotPasswordViewModel
 import com.alvaro.mediumpractices.ui.theme.Urbanist
 
 @Composable
@@ -34,9 +38,9 @@ fun ForgotPasswordScreen(navController: NavController) {
         Column(Modifier.padding(it)) {
             HeaderForgotPassword()
             Spacer(modifier = Modifier.height(16.dp))
-            ForgotForm()
+            ForgotForm(navController = navController)
             Spacer(modifier = Modifier.weight(1f))
-            FooterAuth(label = "Remember Password", labelClickable ="Login In", onClick = {} )
+            FooterAuth(label = "Remember Password", labelClickable = "Login In", onClick = {})
         }
     }
 }
@@ -58,15 +62,23 @@ fun HeaderForgotPassword() {
 }
 
 @Composable
-fun ForgotForm(){
-    var email by remember {
-        mutableStateOf("")
-    }
+fun ForgotForm(
+    forgotPasswordVM: ForgotPasswordViewModel = hiltViewModel(),
+    navController: NavController
+) {
+
+    val uiStateForgotPassword by forgotPasswordVM.uiForgotPasswordState.collectAsState()
 
     Column(Modifier.padding(horizontal = 12.dp)) {
-        TextFieldLogin(value = email, onValueChange = {email = it} , placeholder ="Email")
+        TextFieldLogin(
+            value = uiStateForgotPassword.email,
+            onValueChange = { forgotPasswordVM.onEvent(ForgotPasswordEvent.EmailChanged(it)) },
+            placeholder = "Email"
+        )
         Spacer(modifier = Modifier.height(24.dp))
-        AuthButtons(label = "Send Code", onClick = { /*TODO*/ })
+        AuthButtons(
+            label = "Send Code",
+            onClick = { forgotPasswordVM.onEvent(ForgotPasswordEvent.Submit {}) })
     }
 
 }
